@@ -23,11 +23,11 @@ app.use(bodyParser.json())
 app.use(morgan('combined'))
 
 // Routes.
-app.get('/', (req, res) => res.send('Hello world!'))  // Verify this works
-app.get('/all', (req, res) => contactsController.METHOD(req, res, db))  // change METHOD for
-                                                                        // actual method
+app.get('/', (req, res) => res.send('Hello world!')) // Verify this works
+app.get('/all', (req, res) => contactsController.METHOD(req, res, db)) // change METHOD for
+// actual method
 app.get('/contacts', (req, res) => contactsController.test(req, res, db)) // TESTING
-app.post('/contacts', (req, res) => contactsController.METHOD(req, res, db)) 
+app.post('/contacts', (req, res) => contactsController.METHOD(req, res, db))
 app.put('/contacts', (req, res) => contactsController.METHOD(req, res, db))
 app.delete('/contacts', (req, res) => contactsController.METHOD(req, res, db))
 
