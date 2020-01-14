@@ -1,3 +1,4 @@
 NodeJS/node_modules/*
 npm-debug.log
 .directory
+NodeJS/.directory
