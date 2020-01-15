@@ -1,79 +1,84 @@
-const addContact = (req, res, db) => {
-    const { firstName, lastName, address, phoneNumber } = req.body
-    db.query(
-        'INSERT INTO contacts (firstname, lastname, address, phonenumber) VALUES ($1, $2, $3, $4) RETURNING *',
-        [firstName, lastName, address, phoneNumber],
-        (error, result) => {
-            if (error) {
-                res.send(error)
-            } else {
-                res.send(result.rows[0])
-            }
-        }
-    )
-}
+'use strict'
 
-const removeContact = (req, res, db) => {
-    const { id } = req.body
-    db.query(
-        'DELETE FROM contacts WHERE id = $1 RETURNING *',
-        [id],
-        (error, result) => {
-            if (error) {
-                res.send(error)
-            } else if (result.rows[0]) {
+// Database.
+const db = require('../db/index')
+const _querys = require('../db/querys')
+const querys = new _querys()
+
+class Contacts {
+    constructor() {}
+
+    async addContact(req, res) {
+        const { firstName, lastName, address, phoneNumber } = req.body
+        try {
+            const result = await db.query(querys.addContact(), [
+                firstName,
+                lastName,
+                address,
+                phoneNumber
+            ])
+            res.send(result.rows[0])
+        } catch (error) {
+            res.send(error.detail)
+        }
+    }
+
+    async removeContact(req, res) {
+        const { id } = req.body
+        try {
+            const result = await db.query(querys.removeContactByID(), [id])
+            if (result.rows[0]) {
                 res.send(result.rows[0])
             } else {
                 res.send(`There is no user with ID: ${id}`)
             }
+        } catch (error) {
+            res.send(error.detail)
         }
-    )
-}
-
-const editContact = (req, res, db) => {
-    const { id, firstName, lastName, address, phoneNumber } = req.body
-    db.query(
-        'UPDATE contacts SET firstname = $2, lastname = $3, address = $4, phonenumber = $5 WHERE id = $1 RETURNING *',
-        [id, firstName, lastName, address, phoneNumber],
-        (error, result) => {
-            if (error) {
-                res.send(error)
-            } else {
-                res.send(result.rows[0])
-            }
-        }
-    )
-}
-
-const getContact = (req, res, db) => {
-    const { id } = req.query
-    let sqlSentence
-    let sqlParameters
-    if (id === 'all') {
-        sqlSentence = 'SELECT * FROM contacts'
-        sqlParameters = []
-    } else {
-        sqlSentence = 'SELECT * FROM contacts WHERE id = $1'
-        sqlParameters = [id]
     }
-    db.query(sqlSentence, sqlParameters, (error, result) => {
-        if (error) {
-            res.send(error)
-        } else if (result.rows[0]) {
-            if (id === 'all') {
-                res.send(result.rows)
-            } else {
-                res.send(result.rows[0])
-            }
-        } else {
-            res.send(`There is no user with ID: ${id}`)
+
+    async editContact(req, res) {
+        const { id, firstName, lastName, address, phoneNumber } = req.body
+        try {
+            const result = await db.query(querys.editContact(), [
+                id,
+                firstName,
+                lastName,
+                address,
+                phoneNumber
+            ])
+            res.send(result.rows[0])
+        } catch (error) {
+            res.send(error.detail)
         }
-    })
+    }
+
+    async getContact(req, res) {
+        const { id } = req.query
+        let sqlSentence
+        let sqlParameters
+        if (id === 'all') {
+            sqlSentence = querys.getAllContacts()
+            sqlParameters = []
+        } else {
+            sqlSentence = querys.getContactByID()
+            sqlParameters = [id]
+        }
+        try {
+            const result = await db.query(sqlSentence, sqlParameters)
+            if (result.rows[0]) {
+                if (id === 'all') {
+                    res.send(result.rows)
+                } else {
+                    res.send(result.rows[0])
+                }
+            } else {
+                res.send(`There is no user with ID: ${id}`)
+            }
+        } catch (error) {
+            res.send(error.detail)
+        }
+    }
 }
 
-module.exports = {
-    addContact,
-    removeContact,
-    editContact,
-    getContact
-}
+module.exports = Contacts

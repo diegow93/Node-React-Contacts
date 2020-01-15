@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express')
 
 // External config file.
@@ -6,30 +8,26 @@ require('dotenv').config()
 // Express app.
 const app = express()
 
-// Database.
-const db = require('./db/index')
-
 // Middleware to be used.
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
-// Use un every request.
+// Use in every request.
 app.use(helmet())
 app.use(bodyParser.json())
 app.use(morgan('combined'))
 
 // Controllers.
-const contactsController = require('./controllers/contacts')
+const _contacts = require('./controllers/contacts')
+const contacts = new _contacts()
 
 // Routes.
 app.get('/', (req, res) => res.send('Hello world!'))
-app.get('/contacts', (req, res) => contactsController.getContact(req, res, db))
-app.post('/contacts', (req, res) => contactsController.addContact(req, res, db))
-app.put('/contacts', (req, res) => contactsController.editContact(req, res, db))
-app.delete('/contacts', (req, res) =>
-    contactsController.removeContact(req, res, db)
-)
+app.get('/contacts', (req, res) => contacts.getContact(req, res))
+app.post('/contacts', (req, res) => contacts.addContact(req, res))
+app.put('/contacts', (req, res) => contacts.editContact(req, res))
+app.delete('/contacts', (req, res) => contacts.removeContact(req, res))
 
 // Server connection.
 app.listen(process.env.PORT || 3000, () => {
