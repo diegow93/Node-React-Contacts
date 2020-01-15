@@ -24,10 +24,9 @@ const contactsController = require('./controllers/contacts')
 
 // Routes.
 app.get('/', (req, res) => res.send('Hello world!'))
-app.get('/all', (req, res) => contactsController.METHOD(req, res, db))
-app.get('/contacts', (req, res) => contactsController.METHOD(req, res, db))
+app.get('/contacts', (req, res) => contactsController.getContact(req, res, db))
 app.post('/contacts', (req, res) => contactsController.addContact(req, res, db))
-app.put('/contacts', (req, res) => contactsController.METHOD(req, res, db))
+app.put('/contacts', (req, res) => contactsController.editContact(req, res, db))
 app.delete('/contacts', (req, res) =>
     contactsController.removeContact(req, res, db)
 )

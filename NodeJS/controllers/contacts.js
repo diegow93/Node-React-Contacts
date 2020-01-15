@@ -30,7 +30,50 @@ const removeContact = (req, res, db) => {
     )
 }
 
+const editContact = (req, res, db) => {
+    const { id, firstName, lastName, address, phoneNumber } = req.body
+    db.query(
+        'UPDATE contacts SET firstname = $2, lastname = $3, address = $4, phonenumber = $5 WHERE id = $1 RETURNING *',
+        [id, firstName, lastName, address, phoneNumber],
+        (error, result) => {
+            if (error) {
+                res.send(error)
+            } else {
+                res.send(result.rows[0])
+            }
+        }
+    )
+}
+
+const getContact = (req, res, db) => {
+    const { id } = req.query
+    let sqlSentence
+    let sqlParameters
+    if (id === 'all') {
+        sqlSentence = 'SELECT * FROM contacts'
+        sqlParameters = []
+    } else {
+        sqlSentence = 'SELECT * FROM contacts WHERE id = $1'
+        sqlParameters = [id]
+    }
+    db.query(sqlSentence, sqlParameters, (error, result) => {
+        if (error) {
+            res.send(error)
+        } else if (result.rows[0]) {
+            if (id === 'all') {
+                res.send(result.rows)
+            } else {
+                res.send(result.rows[0])
+            }
+        } else {
+            res.send(`There is no user with ID: ${id}`)
+        }
+    })
+}
+
 module.exports = {
     addContact,
-    removeContact
+    removeContact,
+    editContact,
+    getContact
 }
