@@ -24,10 +24,10 @@ const contacts = new _contacts()
 
 // Routes.
 app.get('/', (req, res) => res.send('Hello world!'))
-app.get('/contacts', (req, res) => contacts.getContact(req, res))
-app.post('/contacts', (req, res) => contacts.addContact(req, res))
-app.put('/contacts', (req, res) => contacts.editContact(req, res))
-app.delete('/contacts', (req, res) => contacts.removeContact(req, res))
+app.get('/api/contacts', (req, res) => contacts.getContact(req, res))
+app.post('/api/contacts', (req, res) => contacts.addContact(req, res))
+app.put('/api/contacts', (req, res) => contacts.editContact(req, res))
+app.delete('/api/contacts', (req, res) => contacts.removeContact(req, res))
 
 // Server connection.
 app.listen(process.env.PORT || 3000, () => {

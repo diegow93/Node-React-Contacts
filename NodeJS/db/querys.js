@@ -4,7 +4,11 @@ class Querys {
     constructor() {}
 
     addContact() {
-        return 'INSERT INTO contacts (firstname, lastname, address, phonenumber) VALUES ($1, $2, $3, $4) RETURNING *'
+        return (
+            'INSERT INTO contacts (firstname, lastname, address, phonenumber) ' +
+            'VALUES ($1, $2, $3, $4) ' +
+            'RETURNING *'
+        )
     }
 
     removeContactByID() {
@@ -12,7 +16,15 @@ class Querys {
     }
 
     editContact() {
-        return 'UPDATE contacts SET firstname = $2, lastname = $3, address = $4, phonenumber = $5 WHERE id = $1 RETURNING *'
+        return (
+            'UPDATE contacts SET ' +
+            'firstname = $2, ' +
+            'lastname = $3, ' +
+            'address = $4, ' +
+            'phonenumber = $5 ' +
+            'WHERE id = $1 ' +
+            'RETURNING *'
+        )
     }
 
     getAllContacts() {
