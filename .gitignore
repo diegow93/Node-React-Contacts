@@ -1,4 +1,12 @@
-NodeJS/node_modules/*
-npm-debug.log
+# Root directory.
+*npm-debug.log
 .directory
+
+# NodeJS folder.
+NodeJS/node_modules/*
 NodeJS/.directory
+
+# react-frontend directory.
+react-frontend/node_modules/*
+react-frontend/coverage/*
+react-frontend/build/*
