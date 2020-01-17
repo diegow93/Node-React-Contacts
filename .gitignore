@@ -5,6 +5,7 @@
 # NodeJS folder.
 NodeJS/node_modules/*
 NodeJS/.directory
+NodeJS/view/*
 
 # react-frontend directory.
 react-frontend/node_modules/*

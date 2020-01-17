@@ -1,10 +1,9 @@
 import axios from 'axios'
 
-let ip = 'localhost'
-let port = '5001'
+let url = window.endpoints.url
 
 let api = axios.create({
-  baseURL: 'http://' + ip + ':' + port + '/api/'
+  baseURL: 'http://' + url + '/api/'
 })
 
 class Api {
