@@ -15,6 +15,33 @@ class Api {
       }
     })
   }
+
+  addContact = (firstName, lastName, address, phoneNumber) => {
+    return api.post('contacts', {
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      phoneNumber: phoneNumber
+    })
+  }
+
+  removeContact = (id) => {
+    return api.delete('contacts', {
+      data: {
+        id: id
+      }
+    })
+  }
+
+  editContact = (id, firstName, lastName, address, phoneNumber) => {
+    return api.put('contacts', {
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      phoneNumber: phoneNumber
+    })
+  }
 }
 
 export default Api

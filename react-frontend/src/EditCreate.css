@@ -1,0 +1,18 @@
+.form-column {
+  background-color: #d8d8d8;
+  margin-top: 6rem;
+  border: 3px solid #d8d8d8;
+  border-radius: 12px;
+}
+
+.form-body {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.buttons-container {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
